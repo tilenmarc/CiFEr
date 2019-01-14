@@ -65,6 +65,21 @@ MunitResult test_vector_inits_frees(const MunitParameter params[], void *data) {
     return MUNIT_OK;
 }
 
+MunitResult test_vector_constant(const MunitParameter params[], void *data) {
+    cfe_vec v;
+    mpz_t c;
+    mpz_init_set_ui(c, 10);
+    cfe_vec_constant(&v, 5, c);
+
+    munit_assert(v.size == 5);
+    munit_assert(mpz_cmp(v.vec[3], c) == 0);
+
+    cfe_vec_free(&v);
+    mpz_clear(c);
+
+    return MUNIT_OK;
+}
+
 MunitResult test_vector_get_set(const MunitParameter params[], void *data) {
     cfe_vec v;
     cfe_vec_init(&v, 5);
@@ -442,6 +457,7 @@ MunitResult test_vector_poly_mul_FFT(const MunitParameter params[], void *data) 
 MunitTest vector_tests[] = {
         {(char *) "/test-init-free",           test_vector_init_free,    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {(char *) "/test-inits-frees",         test_vector_inits_frees,  NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+        {(char *) "/test-constant",            test_vector_constant,     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {(char *) "/test-get-set",             test_vector_get_set,      NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {(char *) "/test-append",              test_vector_append,       NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {(char *) "/test-join",                test_vector_join,         NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},

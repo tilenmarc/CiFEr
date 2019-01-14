@@ -25,28 +25,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CIFER_TEST_H
-#define CIFER_TEST_H
+#include "munit.h"
+#include <stdbool.h>
 
-#include <munit.h>
+#include "abe/policy.h"
 
-MunitSuite prime_suite;
-MunitSuite keygen_suite;
-MunitSuite matrix_suite;
-MunitSuite vector_suite;
-MunitSuite dlog_suite;
-MunitSuite uniform_suite;
-MunitSuite normal_cumulative_suite;
-MunitSuite normal_negative_suite;
-MunitSuite normal_double_suite;
-MunitSuite ddh_suite;
-MunitSuite damgard_suite;
-MunitSuite ddh_multi_suite;
-MunitSuite damgard_multi_suite;
-MunitSuite lwe_suite;
-MunitSuite lwe_fully_secure_suite;
-MunitSuite ring_lwe_suite;
-MunitSuite paillier_suite;
-MunitSuite policy_suite;
+MunitResult test_boolean_to_msp(const MunitParameter params[], void *data) {
+    char bool_exp[] = "(1 OR 2) AND 3";
+    cfe_msp msp;
+    boolean_to_msp(&msp, bool_exp, false);
+//    munit_assert(1==1);
+    char s[] = "foo bar";
+    char *sub_s = substring(s, 2, 5);
+    gmp_printf("%s\n", sub_s);
+    return MUNIT_OK;
+}
 
-#endif
+MunitTest policy_tests[] = {
+        {(char *) "/test-boolean_to_msp", test_boolean_to_msp,   NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+        {NULL,                            NULL,                  NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}
+};
+
+MunitSuite policy_suite = {
+        (char *) "/abe/policy", policy_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE
+};

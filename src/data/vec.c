@@ -56,6 +56,13 @@ void cfe_vec_inits(size_t size, cfe_vec *v, ...) {
     va_end (ap);
 }
 
+void cfe_vec_constant(cfe_vec *vec, size_t size, mpz_t c) {
+    cfe_vec_init(vec, size);
+    for (size_t i = 0; i < size; i++) {
+        cfe_vec_set(vec, c, i);
+    }
+}
+
 // Coordinate-wise addition.
 void cfe_vec_add(cfe_vec *res, cfe_vec *v1, cfe_vec *v2) {
     assert(v1->size == v2->size);
