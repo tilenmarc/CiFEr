@@ -31,7 +31,7 @@
 #include "abe/policy.h"
 
 MunitResult test_boolean_to_msp(const MunitParameter params[], void *data) {
-    char bool_exp[] = "(1 OR 2) AND 3";
+    char bool_exp[] = "(1AND2)AND3";
     cfe_msp msp;
     boolean_to_msp(&msp, bool_exp, false);
 //    munit_assert(1==1);

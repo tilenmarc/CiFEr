@@ -53,7 +53,7 @@
  */
 typedef struct cfe_msp {
     cfe_mat *mat; /** A pointer to the first integer */
-    int row_to_attrib[]; /** The size of the vector */
+    int *row_to_attrib; /** The size of the vector */
 } cfe_msp;
 
 /**
@@ -64,6 +64,8 @@ typedef struct cfe_msp {
  */
 void boolean_to_msp(cfe_msp *msp, char *bool_exp, bool convert_to_ones);
 
-void boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec vec, size_t c);
+size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size_t c);
+
+void make_and_vecs(cfe_vec *vec1, cfe_vec *vec2, cfe_vec *vec, size_t c);
 
 char *substring(char *s, size_t start, size_t stop);
