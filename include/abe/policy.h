@@ -69,3 +69,7 @@ size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size
 void make_and_vecs(cfe_vec *vec1, cfe_vec *vec2, cfe_vec *vec, size_t c);
 
 char *substring(char *s, size_t start, size_t stop);
+
+char *remove_spaces(char* source);
+
+void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p);

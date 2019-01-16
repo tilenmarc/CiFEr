@@ -33,30 +33,29 @@
 
 #include "abe/policy.h"
 
-void msp_init(cfe_msp *msp) {
-    gmp_printf("uuu");
-}
 
 void boolean_to_msp(cfe_msp *msp, char *bool_exp, bool convert_to_ones) {
+    char *bool_exp_trimmed = remove_spaces(bool_exp);
     cfe_vec vec;
     cfe_vec_init(&vec, 1);
     mpz_t one;
     mpz_init_set_ui(one, 1);
-    boolean_to_msp_iterative(msp, bool_exp, &vec, 1);
+    cfe_vec_set(&vec, one, 0);
+
+    boolean_to_msp_iterative(msp, bool_exp_trimmed, &vec, 1);
+
+    cfe_vec_free(&vec);
+    mpz_clear(one);
 }
 
 size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size_t c) {
-    // todo trim spaces in bool_exp
     size_t num_brc = 0;
-    char *bool_exp1;
-    char *bool_exp2;
-    size_t c1;
-    size_t c_out;
-    cfe_msp msp1;
-    cfe_msp msp2;
+    char *bool_exp1, *bool_exp2;
+    size_t c1, c_out;
+    cfe_msp msp1, msp2;
     bool found = false;
-    for (size_t i=0; i<strlen(bool_exp); i++) {
-//        gmp_printf("aa\n");
+
+    for (size_t i = 0; i < strlen(bool_exp); i++) {
         if (bool_exp[i] == '(') {
             num_brc++;
             continue;
@@ -69,16 +68,25 @@ size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size
                 bool_exp[i+1] == 'N' && bool_exp[i+2] == 'D') {
             bool_exp1 = substring(bool_exp, 0, i);
             bool_exp2 = substring(bool_exp, i + 3, strlen(bool_exp));
-            gmp_printf(bool_exp1);
-            gmp_printf(bool_exp2);
+
             cfe_vec vec1, vec2;
-            make_and_vecs(&vec1, &vec2, vec, c + 1);
+            make_and_vecs(&vec1, &vec2, vec, c);
             c1 = boolean_to_msp_iterative(&msp1, bool_exp1, &vec1, c + 1);
             c_out = boolean_to_msp_iterative(&msp2, bool_exp2, &vec2, c1);
             found = true;
+            break;
         }
-    }
+        if (num_brc == 0 && i < strlen(bool_exp) - 2 && bool_exp[i] == 'O' &&
+                bool_exp[i+1] == 'R') {
+            bool_exp1 = substring(bool_exp, 0, i);
+            bool_exp2 = substring(bool_exp, i + 2, strlen(bool_exp));
+            c1 = boolean_to_msp_iterative(&msp1, bool_exp1, vec, c);
+            c_out = boolean_to_msp_iterative(&msp2, bool_exp2, vec, c1);
+            found = true;
+            break;
+        }
 
+    }
     if (found == false) {
         if (bool_exp[0] == '(' && bool_exp[strlen(bool_exp) - 1] == ')') {
             bool_exp = substring(bool_exp, 1, strlen(bool_exp) - 1);
@@ -99,14 +107,34 @@ size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size
             }
         }
 
-        msp->row_to_attrib = (int*) cfe_malloc(sizeof(int) * (1 + 1));
+        msp->row_to_attrib = (int*) cfe_malloc(sizeof(int) * 1);
         msp->row_to_attrib[0] = attrib;
-        msp->row_to_attrib[1] = '\0';
         return c;
     } else {
         msp->mat = (cfe_mat*) cfe_malloc(sizeof(cfe_mat));
+        msp->row_to_attrib = (int*) cfe_malloc(sizeof(int) * (msp1.mat->rows + msp2.mat->rows));
         cfe_mat_init(msp->mat, msp1.mat->rows + msp2.mat->rows, c_out);
-
+        mpz_t tmp;
+        mpz_init(tmp);
+        for (size_t i = 0; i < msp1.mat->rows; i++) {
+            for (size_t j = 0; j < msp1.mat->cols; j++) {
+                cfe_mat_get(tmp, msp1.mat, i, j);
+                cfe_mat_set(msp->mat, tmp, i, j);
+            }
+            mpz_set_ui(tmp, 0);
+            for (size_t j = msp->mat->cols; j < c_out; j++) {
+                cfe_mat_set(msp->mat, tmp, i, j);
+            }
+            msp->row_to_attrib[i] = msp1.row_to_attrib[i];
+        }
+        for (size_t i = 0; i < msp2.mat->rows; i++) {
+            for (size_t j = 0; j < c_out; j++) {
+                cfe_mat_get(tmp, msp2.mat, i, j);
+                cfe_mat_set(msp->mat, tmp, i + msp1.mat->rows, j);
+            }
+            msp->row_to_attrib[i + msp1.mat->rows] = msp2.row_to_attrib[i];
+        }
+        return c_out;
     }
 }
 
@@ -124,8 +152,148 @@ void make_and_vecs(cfe_vec *vec1, cfe_vec *vec2, cfe_vec *vec, size_t c) {
 
 
 char *substring(char *s, size_t start, size_t stop) {
-    char *sub = cfe_malloc(sizeof(char)*(stop - start + 1));
-    strncpy(sub, s+start, stop-start);
-    sub[start - stop] = '\0';
+    char *sub = (char*) cfe_malloc(sizeof(char)*(stop - start + 1));
+    for (size_t i = start; i < stop; i++) {
+        sub[i - start] = s[i];
+    }
+    sub[stop - start] = '\0';
+
     return sub;
+}
+
+char *remove_spaces(char* source) {
+    size_t count = 0;
+    for (size_t i = 0; i < strlen(source); i++) {
+        if(source[i] != ' '){
+            count++;
+        }
+    }
+
+    char *res = (char*) cfe_malloc(sizeof(char)*(count + 1));
+    count = 0;
+    for (size_t i = 0; i < strlen(source); i++) {
+        if(source[i] != ' '){
+            res[count] = source[i];
+            count++;
+        }
+    }
+    res[count] = '\0';
+
+    return res;
+}
+
+void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p) {
+    // copy mat and vec in m and v
+    cfe_mat m;
+    cfe_mat_init(&m, mat->rows, mat->cols);
+    cfe_vec v;
+    cfe_vec_init(&v, vec->size);
+    for (size_t i = 0; i < mat->rows; i++) {
+        cfe_mat_set_vec(&m, &(mat->mat[i]), i);
+        cfe_vec_set(&v, vec->vec[i], i);
+    }
+    mpz_t min_one;
+    mpz_init_set_si(min_one, -1);
+    cfe_vec_constant(res, mat->cols, min_one);
+
+    size_t h = 0, k = 0;
+    mpz_t tmp;
+    mpz_init(tmp);
+    mpz_t tmp2;
+    mpz_init(tmp2);
+    cfe_vec vec_tmp;
+    mpz_t mpz_tmp;
+    mpz_init(mpz_tmp);
+    mpz_t mhk_inv;
+    mpz_init(mhk_inv);
+    mpz_t lead_mul_inv;
+    mpz_init(lead_mul_inv);
+    mpz_t zero;
+    mpz_init_set_ui(zero, 0);
+    while (h < m.rows && k < m.cols) {
+        bool is_zero = true;
+        for (size_t i = h; i < m.rows; i++) {
+            cfe_mat_get(tmp, &m, i, k);
+            if (mpz_cmp_ui(tmp, 0) != 0) {
+                vec_tmp = m.mat[i];
+                m.mat[i] = m.mat[h];
+                m.mat[h] = vec_tmp;
+
+                mpz_set(mpz_tmp, v.vec[i]);
+                mpz_set(v.vec[i], v.vec[h]);
+                mpz_set(v.vec[h], mpz_tmp);
+                is_zero = false;
+                break;
+            }
+        }
+
+        if (is_zero) {
+            cfe_vec_set(res, zero, k);
+            k++;
+            continue;
+        }
+        cfe_mat_get(tmp, &m, h, k);
+        mpz_invert(mhk_inv, tmp, p);
+        for (size_t i = h + 1; i < m.rows; i++) {
+            cfe_mat_get(tmp, &m, i, k);
+            mpz_mul(lead_mul_inv, mhk_inv, tmp);
+            cfe_mat_set(&m, zero, i, k);
+            for (size_t j = k + 1; j < m.cols; j++) {
+                cfe_mat_get(tmp, &m, i, j);
+                cfe_mat_get(tmp2, &m, h, j);
+
+                mpz_mul(tmp2, tmp2, lead_mul_inv);
+                mpz_sub(tmp, tmp, tmp2);
+                mpz_mod(tmp, tmp, p);
+
+                cfe_mat_set(&m, tmp, i, j);
+            }
+            cfe_vec_get(tmp2, &v, h);
+            cfe_vec_get(tmp, &v, i);
+
+            mpz_mul(tmp2, tmp2, lead_mul_inv);
+            mpz_sub(tmp, tmp, tmp2);
+            mpz_mod(tmp, tmp, p);
+
+            cfe_vec_set(&v, tmp, i);
+        }
+        k++;
+        h++;
+    }
+
+
+
+    // todo: no solution error
+    for (size_t i = h; i < m.rows; i++) {
+        if (mpz_cmp_ui(v.vec[i], 0) != 0) {
+            return;
+        }
+    }
+    for (size_t j = k; j < m.cols; j++) {
+        cfe_vec_set(res, zero, j);
+    }
+
+    size_t i = h - 1;
+    size_t j = k - 1;
+    while (true) {
+        if (mpz_cmp_si(res->vec[j], -1) == 0) {
+            mpz_set_ui(tmp, 0);
+            for (size_t l = j + 1; l < m.cols; l++) {
+                cfe_mat_get(tmp2, &m, i, l);
+                mpz_mul(tmp2, tmp2, res->vec[l]);
+                mpz_add(tmp, tmp, tmp2);
+            }
+            mpz_sub(tmp, v.vec[i], tmp);
+            cfe_mat_get(tmp2, &m, i, j);
+            mpz_invert(tmp2, tmp2, p);
+            mpz_mul(tmp, tmp, tmp2);
+            mpz_mod(tmp, tmp, p);
+            cfe_vec_set(res, tmp, j);
+            i--;
+        }
+        if (j == 0) {
+            break;
+        }
+        j--;
+    }
 }
