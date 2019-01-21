@@ -38,11 +38,26 @@ void boolean_to_msp(cfe_msp *msp, char *bool_exp, bool convert_to_ones) {
     char *bool_exp_trimmed = remove_spaces(bool_exp);
     cfe_vec vec;
     cfe_vec_init(&vec, 1);
-    mpz_t one;
+    mpz_t zero, one;
+    mpz_init_set_ui(zero, 0);
     mpz_init_set_ui(one, 1);
-    cfe_vec_set(&vec, one, 0);
 
+    cfe_vec_set(&vec, one, 0);
     boolean_to_msp_iterative(msp, bool_exp_trimmed, &vec, 1);
+
+    if (convert_to_ones) {
+        cfe_mat inv_mat, msp_mat;
+        cfe_mat_const(&inv_mat, msp->mat->cols, msp->mat->cols, zero);
+
+        for (size_t i = 0; i < inv_mat.rows; i++) {
+            cfe_mat_set(&inv_mat, one, 0, i);
+            cfe_mat_set(&inv_mat, one, i, i);
+        }
+
+        cfe_mat_copy(&msp_mat, msp->mat);
+        cfe_mat_mul(msp->mat, &msp_mat, &inv_mat);
+        cfe_mat_frees(&msp_mat, &inv_mat, NULL);
+    }
 
     cfe_vec_free(&vec);
     mpz_clear(one);
@@ -141,13 +156,14 @@ size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size
 void make_and_vecs(cfe_vec *vec1, cfe_vec *vec2, cfe_vec *vec, size_t c) {
     mpz_t zero;
     mpz_init_set_ui(zero, 0);
-    cfe_vec_constant(vec1, c + 1, zero);
-    cfe_vec_constant(vec2, c + 1, zero);
+    cfe_vec_const(vec1, c + 1, zero);
+    cfe_vec_const(vec2, c + 1, zero);
     for (size_t i = 0; i < vec->size; i++) {
         cfe_vec_set(vec2, vec->vec[i], i);
     }
     mpz_set_si(vec1->vec[c], -1);
     mpz_set_si(vec2->vec[c], 1);
+    mpz_clear(zero);
 }
 
 
@@ -182,34 +198,29 @@ char *remove_spaces(char* source) {
     return res;
 }
 
-void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p) {
-    // copy mat and vec in m and v
-    cfe_mat m;
-    cfe_mat_init(&m, mat->rows, mat->cols);
-    cfe_vec v;
-    cfe_vec_init(&v, vec->size);
-    for (size_t i = 0; i < mat->rows; i++) {
-        cfe_mat_set_vec(&m, &(mat->mat[i]), i);
-        cfe_vec_set(&v, vec->vec[i], i);
-    }
-    mpz_t min_one;
-    mpz_init_set_si(min_one, -1);
-    cfe_vec_constant(res, mat->cols, min_one);
+void cfe_msp_free(cfe_msp *msp) {
+    cfe_mat_free(msp->mat);
+    free(msp->row_to_attrib);
+}
 
+int gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p) {
+    int ret_error = 0;
+    // copy mat and vec in m and v (mod p)
+    cfe_mat m;
+    cfe_vec v, vec_tmp;
+    cfe_vec_init(&v, vec->size);
+    cfe_mat_copy(&m, mat);
+    cfe_vec_copy(&v, vec);
+    cfe_mat_mod(&m, &m, p);
+    cfe_vec_mod(&v, &v, p);
+
+    mpz_t min_one, zero, tmp, tmp2, mhk_inv, lead_mul_inv;
+    mpz_inits(min_one, zero, tmp, tmp2, mhk_inv, lead_mul_inv, NULL);
+
+    mpz_set_si(min_one, -1);
+    mpz_set_ui(zero, 0);
+    cfe_vec_const(res, mat->cols, min_one);
     size_t h = 0, k = 0;
-    mpz_t tmp;
-    mpz_init(tmp);
-    mpz_t tmp2;
-    mpz_init(tmp2);
-    cfe_vec vec_tmp;
-    mpz_t mpz_tmp;
-    mpz_init(mpz_tmp);
-    mpz_t mhk_inv;
-    mpz_init(mhk_inv);
-    mpz_t lead_mul_inv;
-    mpz_init(lead_mul_inv);
-    mpz_t zero;
-    mpz_init_set_ui(zero, 0);
     while (h < m.rows && k < m.cols) {
         bool is_zero = true;
         for (size_t i = h; i < m.rows; i++) {
@@ -219,9 +230,9 @@ void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p) {
                 m.mat[i] = m.mat[h];
                 m.mat[h] = vec_tmp;
 
-                mpz_set(mpz_tmp, v.vec[i]);
+                mpz_set(tmp, v.vec[i]);
                 mpz_set(v.vec[i], v.vec[h]);
-                mpz_set(v.vec[h], mpz_tmp);
+                mpz_set(v.vec[h], tmp);
                 is_zero = false;
                 break;
             }
@@ -261,39 +272,44 @@ void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p) {
         h++;
     }
 
-
-
-    // todo: no solution error
     for (size_t i = h; i < m.rows; i++) {
         if (mpz_cmp_ui(v.vec[i], 0) != 0) {
-            return;
+            ret_error = 1;
+            goto clearup;
         }
     }
+
     for (size_t j = k; j < m.cols; j++) {
         cfe_vec_set(res, zero, j);
     }
 
-    size_t i = h - 1;
-    size_t j = k - 1;
+    h--;
+    k--;
     while (true) {
-        if (mpz_cmp_si(res->vec[j], -1) == 0) {
+        if (mpz_cmp_si(res->vec[k], -1) == 0) {
             mpz_set_ui(tmp, 0);
-            for (size_t l = j + 1; l < m.cols; l++) {
-                cfe_mat_get(tmp2, &m, i, l);
+            for (size_t l = k + 1; l < m.cols; l++) {
+                cfe_mat_get(tmp2, &m, h, l);
                 mpz_mul(tmp2, tmp2, res->vec[l]);
                 mpz_add(tmp, tmp, tmp2);
             }
-            mpz_sub(tmp, v.vec[i], tmp);
-            cfe_mat_get(tmp2, &m, i, j);
+            mpz_sub(tmp, v.vec[h], tmp);
+            cfe_mat_get(tmp2, &m, h, k);
             mpz_invert(tmp2, tmp2, p);
             mpz_mul(tmp, tmp, tmp2);
             mpz_mod(tmp, tmp, p);
-            cfe_vec_set(res, tmp, j);
-            i--;
+            cfe_vec_set(res, tmp, k);
+            h--;
         }
-        if (j == 0) {
+        if (k == 0) {
             break;
         }
-        j--;
+        k--;
     }
+    clearup:
+    mpz_clears(min_one, zero, tmp, tmp2, mhk_inv, lead_mul_inv, NULL);
+    cfe_vec_free(&v);
+    cfe_mat_free(&m);
+
+    return ret_error;
 }

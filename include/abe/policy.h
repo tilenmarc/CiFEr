@@ -72,4 +72,6 @@ char *substring(char *s, size_t start, size_t stop);
 
 char *remove_spaces(char* source);
 
-void gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p);
+void cfe_msp_free(cfe_msp *msp);
+
+int gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p);
