@@ -25,29 +25,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CIFER_TEST_H
-#define CIFER_TEST_H
+#include <gmp.h>
+#include "test.h"
 
-#include <munit.h>
+#include "abe/gpsw.h"
+#include "abe/policy.h"
+#include "sample/uniform.h"
 
-MunitSuite prime_suite;
-MunitSuite keygen_suite;
-MunitSuite matrix_suite;
-MunitSuite vector_suite;
-MunitSuite dlog_suite;
-MunitSuite uniform_suite;
-MunitSuite normal_cumulative_suite;
-MunitSuite normal_negative_suite;
-MunitSuite normal_double_suite;
-MunitSuite ddh_suite;
-MunitSuite damgard_suite;
-MunitSuite ddh_multi_suite;
-MunitSuite damgard_multi_suite;
-MunitSuite lwe_suite;
-MunitSuite lwe_fully_secure_suite;
-MunitSuite ring_lwe_suite;
-MunitSuite paillier_suite;
-MunitSuite policy_suite;
-MunitSuite gpsw_suite;
+MunitResult test_gpsw_end_to_end(const MunitParameter *params, void *data) {
 
-#endif
+    cfe_gpsw gpsw;
+    cfe_gpsw_init(&gpsw, 10);
+//    munit_assert(err == 0);
+
+    return MUNIT_OK;
+
+}
+
+MunitTest gpsw_tests[] = {
+        {(char *) "/end-to-end", test_gpsw_end_to_end, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
+        {NULL, NULL,                                      NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}
+};
+
+MunitSuite gpsw_suite = {
+        (char *) "/abe/gpsw", gpsw_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE
+};

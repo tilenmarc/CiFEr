@@ -25,29 +25,43 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CIFER_TEST_H
-#define CIFER_TEST_H
+#ifndef CIFER_GPSW_H
+#define CIFER_GPSW_H
 
-#include <munit.h>
+#include <stdbool.h>
+#include <gmp.h>
+#include <pair_BN254.h>
+#include <big_256_56.h>
 
-MunitSuite prime_suite;
-MunitSuite keygen_suite;
-MunitSuite matrix_suite;
-MunitSuite vector_suite;
-MunitSuite dlog_suite;
-MunitSuite uniform_suite;
-MunitSuite normal_cumulative_suite;
-MunitSuite normal_negative_suite;
-MunitSuite normal_double_suite;
-MunitSuite ddh_suite;
-MunitSuite damgard_suite;
-MunitSuite ddh_multi_suite;
-MunitSuite damgard_multi_suite;
-MunitSuite lwe_suite;
-MunitSuite lwe_fully_secure_suite;
-MunitSuite ring_lwe_suite;
-MunitSuite paillier_suite;
-MunitSuite policy_suite;
-MunitSuite gpsw_suite;
+#include "data/mat.h"
+#include "data/vec.h"
+
+ /**
+ * \file
+ * \ingroup fullysec
+ * \brief Damgard scheme.
+ */
+
+/**
+ * cfe_damgard represents a scheme instantiated from the DDH assumption.
+ */
+typedef struct cfe_gpsw {
+    size_t l;
+    mpz_t p;
+} cfe_gpsw;
+
+/**
+ * Configures a new instance of the scheme.
+ *
+ * @param s A pointer to an uninitialized struct representing the scheme
+ * @param l The length of input vectors
+ * @param n The security parameter of the scheme
+ * @param bound_x The bound by which coordinates of the encrypted vectors are bounded
+ * @param bound_y The bound by which coordinates of the inner product
+ * vectors are bounded
+ * @return Error code
+ */
+void cfe_gpsw_init(cfe_gpsw *gpsw, size_t l);
+
 
 #endif

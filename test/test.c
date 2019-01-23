@@ -49,6 +49,7 @@ int main(int argc, char *argv[]) {
 //            normal_negative_suite,
 //            normal_double_suite,
             policy_suite,
+            gpsw_suite,
             {NULL, NULL, NULL, 0, MUNIT_SUITE_OPTION_NONE}
     };
 

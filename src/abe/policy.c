@@ -30,6 +30,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <internal/common.h>
+//#include <pair_BN254.h>
+#include <big_256_56.h>
 
 #include "abe/policy.h"
 

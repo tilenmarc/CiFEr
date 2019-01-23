@@ -25,11 +25,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-//#ifndef CIFER_POLICY_H
-//#define CIFER_POLICY_H
+#ifndef CIFER_POLICY_H
+#define CIFER_POLICY_H
 
 #include <stdbool.h>
 #include <gmp.h>
+#include <pair_BN254.h>
+#include <big_256_56.h>
 
 #include "data/mat.h"
 #include "data/vec.h"
@@ -75,3 +77,9 @@ char *remove_spaces(char* source);
 void cfe_msp_free(cfe_msp *msp);
 
 int gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p);
+
+//void BIG_256_56_from_mpz(BIG_256_56 a, mpz_t b);
+//
+//void mpz_from_BIG_256_56(mpz_t b, BIG_256_56 a);
+
+#endif
