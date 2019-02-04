@@ -28,22 +28,29 @@
 #ifndef CIFER_GPSW_H
 #define CIFER_GPSW_H
 
-#include <stdbool.h>
 #include <gmp.h>
-#include <pair_BN254.h>
-#include <big_256_56.h>
+#include <data/vec_curve.h>
+#include <fp12_BN254.h>
 
-#include "data/mat.h"
 #include "data/vec.h"
 
  /**
  * \file
- * \ingroup fullysec
- * \brief Damgard scheme.
+ * \ingroup abe
+ * \brief This is a key policy (KP) attribute based (ABE) scheme based
+ * on Goyal, Pandey, Sahai, Waters: "Attribute-Based Encryption for
+ * Fine-Grained Access Control of Encrypted Data"
+ * We abbreviated it GPSW scheme to honor the authors. This scheme
+ * enables distribution of keys based on a boolean expression determining
+ * which attributes are needed for an entity to be able to decrypt. Each
+ * key is connected to some attribute, such that only a set of keys
+ * whose attributes are sufficient can decrypt the massage. This scheme
+ * is a PUBLIC-KEY scheme - no master secret key is needed to encrypt
+ * the messages.
  */
 
 /**
- * cfe_damgard represents a scheme instantiated from the DDH assumption.
+ * cfe_gpsw represents the GPSW scheme.
  */
 typedef struct cfe_gpsw {
     size_t l;
@@ -51,17 +58,29 @@ typedef struct cfe_gpsw {
 } cfe_gpsw;
 
 /**
+ * cfe_gpsw_pub_key the public key for the GPSW scheme.
+ */
+typedef struct cfe_gpsw_pub_key {
+    cfe_vec_G2 *t;
+    FP12_BN254 *y;
+} cfe_gpsw_pub_key;
+
+/**
  * Configures a new instance of the scheme.
  *
- * @param s A pointer to an uninitialized struct representing the scheme
- * @param l The length of input vectors
- * @param n The security parameter of the scheme
- * @param bound_x The bound by which coordinates of the encrypted vectors are bounded
- * @param bound_y The bound by which coordinates of the inner product
- * vectors are bounded
- * @return Error code
+ * @param gpsw A pointer to an uninitialized struct representing the scheme
+ * @param l The number of attributes that can be used in the scheme.
  */
 void cfe_gpsw_init(cfe_gpsw *gpsw, size_t l);
+
+/**
+ * Generates master secret and public key.
+ *
+ * @param gpsw A pointer to an initialized struct representing the scheme
+ * @param pk A pointer to an uninitialized struct representing the public key
+ * @param sk A pointer to an uninitialized vector representing the secret key
+ */
+void generate_master_keys(cfe_gpsw *gpsw, cfe_gpsw_pub_key *pk, cfe_vec *sk);
 
 
 #endif

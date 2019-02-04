@@ -32,119 +32,6 @@
 
 #include "abe/policy.h"
 
-//#include <pair_BN254.h>
-
-//#include <inttypes.h>
-
-
-void BIG_256_56_from_mpz(BIG_256_56 a, mpz_t b) {
-    int i;
-    BIG_256_56_zero(a);
-    mpz_t x, y;
-    mpz_inits(x, y, NULL);
-    mpz_set(y, b);
-    size_t size = (MODBYTES_256_56 * 8) - ((MODBYTES_256_56 * 8) % BASEBITS_256_56);
-    for (i=0; i<((MODBYTES_256_56 * 8) / BASEBITS_256_56) + 1; i++)
-    {
-        BIG_256_56_fshl(a, BASEBITS_256_56);
-        mpz_fdiv_q_2exp(x, y, size);
-        mpz_fdiv_r_2exp(y, y, size);
-        a[0]+= mpz_get_ui(x);
-        size = size - BASEBITS_256_56;
-    }
-    mpz_clears(x, y, NULL);
-}
-void mpz_from_BIG_256_56(mpz_t b, BIG_256_56 a) {
-    mpz_import(b, (MODBYTES_256_56 * 8) / BASEBITS_256_56, -1, sizeof(a[0]), 0, (8 * sizeof(a[0])) - BASEBITS_256_56, a);
-}
-
-MunitResult test_amcl(const MunitParameter *params, void *data) {
-
-    ECP_BN254 G11, G1sum, G13;
-    ECP_BN254_generator(&G11);
-    ECP_BN254_generator(&G1sum);
-    ECP_BN254_generator(&G13);
-    int check = ECP_BN254_equals(&G11, &G13);
-    printf("yes%d\n", check);
-    ECP_BN254_add(&G1sum, &G11);
-    check = ECP_BN254_equals(&G11, &G1sum);
-    printf("no%d\n", check);
-
-
-    ECP2_BN254 G2, G2sum;
-    ECP2_BN254_generator(&G2);
-    ECP2_BN254_generator(&G2sum);
-    check = ECP2_BN254_equals(&G2, &G2sum);
-    printf("yes%d\n", check);
-
-    ECP2_BN254_add(&G2sum, &G2);
-
-
-    FP12_BN254 GT1, GTsum, GT3, GTsum2;
-    PAIR_BN254_ate(&GT1, &G2, &G11);
-    PAIR_BN254_fexp(&GT1);
-
-    PAIR_BN254_ate(&GTsum, &G2, &G1sum);
-    PAIR_BN254_fexp(&GTsum);
-    PAIR_BN254_ate(&GTsum2, &G2sum, &G11);
-    PAIR_BN254_fexp(&GTsum2);
-
-
-    check = FP12_BN254_equals(&GTsum, &GTsum2);
-    printf("aayes%d\n", check);
-
-
-    PAIR_BN254_ate(&GT3, &G2, &G13);
-    PAIR_BN254_fexp(&GT3);
-    check = FP12_BN254_equals(&GT1, &GT3);
-    printf("yes%d\n", check);
-    FP12_BN254_mul(&GT3, &GT1);
-
-    FP12_BN254_reduce(&GTsum);
-    check = FP12_BN254_equals(&GTsum, &GT3);
-    printf("bbyes%d\n", check);
-
-    BIG_256_56 two;
-    BIG_256_56_one(two);
-    BIG_256_56_imul(two, two, 2);
-    ECP_BN254 H1, H2;
-    ECP_BN254_generator(&H1);
-    ECP_BN254_generator(&H2);
-    ECP_BN254_add(&H1, &H2);
-    ECP_BN254_mul(&H2, two);
-    check = ECP_BN254_equals(&H2, &H1);
-    printf("yes%d\n", check);
-
-
-    BIG_256_56 zero;
-    BIG_256_56_zero(zero);
-    ECP_BN254_mul(&H2, CURVE_Order_BN254);
-    ECP_BN254_mul(&H1, zero);
-    check = ECP_BN254_equals(&H2, &H1);
-    printf("iiiyes%d\n", check);
-
-
-//    BIG_256_56 order = CURVE_Order_BN254;
-
-
-
-    BIG_256_56 x;
-    mpz_t y;
-
-    mpz_set_str(y, "72057594037927936", 10);
-    gmp_printf("%Zd \n", y);
-    BIG_256_56_from_mpz(x, y);
-    printf("%" PRId64 "\n", x[0]);
-    printf("%" PRId64 "\n", x[1]);
-    printf("%" PRId64 "\n", x[2]);
-
-    mpz_from_BIG_256_56(y, x);
-    gmp_printf("%Zd \n", y);
-
-    return MUNIT_OK;
-}
-
-
 
 MunitResult test_boolean_to_msp(const MunitParameter params[], void *data) {
     // define a boolean expression and make a corresponding msp structure
@@ -224,7 +111,6 @@ MunitResult test_gaussian_elimination(const MunitParameter params[], void *data)
 MunitTest policy_tests[] = {
         {(char *) "/test-boolean_to_msp",       test_boolean_to_msp,       NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {(char *) "/test-gaussian-elimination", test_gaussian_elimination, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
-        {(char *) "/test-amcl",                 test_amcl,                 NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {NULL,                                  NULL,                      NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}
 };
 

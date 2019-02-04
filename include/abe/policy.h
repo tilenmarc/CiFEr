@@ -30,40 +30,30 @@
 
 #include <stdbool.h>
 #include <gmp.h>
-#include <pair_BN254.h>
-#include <big_256_56.h>
 
 #include "data/mat.h"
 #include "data/vec.h"
 
 /**
  * \file
- * \ingroup data
- * \brief Vector struct and operations.
- *
- * As in GMP library, all functions except initialization functions presume that
- * all of the parameters are properly initialized.
- *
- * All functions (unless othewise specified) store their results (either a GMP
- * integer or a vector) to a parameter and do not modify the original vector.
- * Thus, the "result" passed as a parameter must also be properly initialized.
+ * \ingroup abe
+ * \brief Functions for policy conversion needed for ABE schemes.
  */
 
 
 /**
- * Vector of arbitrary precision (GMP) integers.
+ * MSP represents a monotone span program (MSP) describing a policy defining which
+ * attributes are needed to decrypt the ciphertext. It includes a matrix
+ * mat and a mapping from the rows of the mat to attributes. A MSP policy
+ * allows decryption of an entity with a set of attributes A if an only if all the
+ * rows of the matrix mapped to an element of A span the vector [1, 0,..., 0] (or
+ * vector [1, 1,..., 1] depending on the use case).
  */
 typedef struct cfe_msp {
     cfe_mat *mat; /** A pointer to the first integer */
     int *row_to_attrib; /** The size of the vector */
 } cfe_msp;
 
-/**
- * Initializes a vector.
- *
- * @param v A pointer to an uninitialized vector
- * @param size The size of the vector
- */
 void boolean_to_msp(cfe_msp *msp, char *bool_exp, bool convert_to_ones);
 
 size_t boolean_to_msp_iterative(cfe_msp *msp, char *bool_exp, cfe_vec *vec, size_t c);
@@ -77,9 +67,5 @@ char *remove_spaces(char* source);
 void cfe_msp_free(cfe_msp *msp);
 
 int gaussian_elimination(cfe_vec *res, cfe_mat *mat, cfe_vec *vec, mpz_t p);
-
-//void BIG_256_56_from_mpz(BIG_256_56 a, mpz_t b);
-//
-//void mpz_from_BIG_256_56(mpz_t b, BIG_256_56 a);
 
 #endif
