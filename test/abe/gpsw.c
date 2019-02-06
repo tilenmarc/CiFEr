@@ -29,6 +29,7 @@
 #include <internal/big.h>
 #include <ecp_BN254.h>
 #include <pair_BN254.h>
+#include <internal/common.h>
 #include "test.h"
 
 #include "abe/gpsw.h"
@@ -40,10 +41,61 @@ MunitResult test_gpsw_end_to_end(const MunitParameter *params, void *data) {
     cfe_gpsw gpsw;
     cfe_gpsw_init(&gpsw, 10);
 
+//    gmp_printf("%Zd %d\n", gpsw.p, gpsw.l);
+
     cfe_gpsw_pub_key pk;
     cfe_vec sk;
     generate_master_keys(&gpsw, &pk, &sk);
 
+//    cfe_vec_print(&sk);
+
+    FP12_BN254 msg;
+    FP12_BN254_one(&msg);
+
+    int *gamma= (int *) cfe_malloc(7 * sizeof(int));
+    gamma[0] = 1;
+    gamma[1] = 2;
+    gamma[2] = 3;
+    gamma[3] = 4;
+    gamma[4] = 5;
+    gamma[5] = 6;
+    gamma[6] = 7;
+
+    cfe_gpsw_cipher cipher;
+    gpsw_encrypt(&cipher, &gpsw, &msg, gamma, 6, &pk);
+
+    // define a boolean expression and make a corresponding msp structure
+    char bool_exp[] = "(5 OR 3) AND ((2 OR 4) OR (1 AND 6))";
+    cfe_msp msp;
+    boolean_to_msp(&msp, bool_exp, true);
+
+    cfe_mat_print(msp.mat);
+
+
+    cfe_vec_G1 policy_keys;
+    generate_policy_keys(&policy_keys, &gpsw, &msp, &sk);
+
+    int *owned_atrib= (int *) cfe_malloc(3 * sizeof(int));
+    owned_atrib[0] = 1;
+    owned_atrib[1] = 3;
+    owned_atrib[2] = 6;
+
+    cfe_gpsw_keys keys;
+    delegate_keys(&keys, &policy_keys, &msp, owned_atrib, 3);
+
+    cfe_mat_print(&(keys.mat));
+
+
+    FP12_BN254 decryption;
+    int check = gpsw_decrypt(decryption, &cipher, &keys, &gpsw);
+    gmp_printf("check %d\n", check);
+
+//    FP12_BN254_reduce(&decryption);
+    FP12_BN254_output(&decryption);
+    FP12_BN254_output(&msg);
+
+    munit_assert(FP12_BN254_equals(&msg, &decryption) == 0);
+// TODO check negative in FP12
     return MUNIT_OK;
 
 }
@@ -72,6 +124,18 @@ MunitResult test_amcl(const MunitParameter *params, void *data) {
     PAIR_BN254_fexp(&GTsum2);
 
     int check = FP12_BN254_equals(&GTsum1, &GTsum2);
+    munit_assert(check);
+
+
+    // check if e(g1 + g1, g2) = e(g1, g2)^2
+    FP12_BN254 GT_squared;
+    PAIR_BN254_ate(&GT_squared, &G2, &G1);
+    PAIR_BN254_fexp(&GT_squared);
+    BIG_256_56 two;
+    BIG_256_56_one(two);
+    BIG_256_56_imul(two, two, 2);
+    FP12_BN254_pow(&GT_squared, &GT_squared, two);
+    check = FP12_BN254_equals(&GT_squared, &GTsum1);
     munit_assert(check);
 
     // check if g * CURVE_Order = identity

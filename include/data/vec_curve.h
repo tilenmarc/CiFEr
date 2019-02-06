@@ -28,14 +28,23 @@
 #ifndef CIFER_VECTOR_CURVE_H
 #define CIFER_VECTOR_CURVE_H
 
-#include "ecp2_BN254.h"
+#include <ecp_BN254.h>
+#include <ecp2_BN254.h>
 #include "vec.h"
 
 /**
  * \file
  * \ingroup data
- * \brief Vector of elements of an elliptic curve struct and operations on it.
+ * \brief Vectors of elements of an elliptic curve struct and operations on it.
  */
+
+/**
+* Vector of ECP_BN254 elements.
+*/
+typedef struct cfe_vec_G1 {
+    ECP_BN254 *vec; /** A pointer to the first element */
+    size_t size; /** The size of the vector */
+} cfe_vec_G1;
 
 /**
  * Vector of ECP2_BN254 elements.
@@ -44,6 +53,19 @@ typedef struct cfe_vec_G2 {
     ECP2_BN254 *vec; /** A pointer to the first element */
     size_t size; /** The size of the vector */
 } cfe_vec_G2;
+
+void cfe_vec_G1_init(cfe_vec_G1 *v, size_t size);
+
+/**
+ * Initializes a vector whose i-th element equals u[i] * g,
+ * where g is the generator of ECP2_BN254.
+ *
+ * @param v A pointer to an uninitialized cfe_vec_G2 vector
+ * @param u A pointer to vector of integers.
+ */
+void cfe_vec_mul_G1(cfe_vec_G1 *v, cfe_vec *u);
+
+void cfe_vec_G2_init(cfe_vec_G2 *v, size_t size);
 
 /**
  * Initializes a vector whose i-th element equals u[i] * g,

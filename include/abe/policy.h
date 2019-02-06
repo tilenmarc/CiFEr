@@ -50,8 +50,8 @@
  * vector [1, 1,..., 1] depending on the use case).
  */
 typedef struct cfe_msp {
-    cfe_mat *mat; /** A pointer to the first integer */
-    int *row_to_attrib; /** The size of the vector */
+    cfe_mat *mat; /** A pointer to a matrix */
+    int *row_to_attrib; /** Mapping from the rows of the matrix to attributes */
 } cfe_msp;
 
 void boolean_to_msp(cfe_msp *msp, char *bool_exp, bool convert_to_ones);
