@@ -110,6 +110,6 @@ void generate_policy_keys(cfe_vec_G1 *key, cfe_gpsw *gpsw, cfe_msp *msp, cfe_vec
 void delegate_keys(cfe_gpsw_keys *keys, cfe_vec_G1 *policy_keys,
                    cfe_msp *msp, int *atrib, size_t num_attrib);
 
-int gpsw_decrypt(FP12_BN254 decryption, cfe_gpsw_cipher *cipher, cfe_gpsw_keys *keys, cfe_gpsw *gpsw);
+int gpsw_decrypt(FP12_BN254 *decryption, cfe_gpsw_cipher *cipher, cfe_gpsw_keys *keys, cfe_gpsw *gpsw);
 
 #endif

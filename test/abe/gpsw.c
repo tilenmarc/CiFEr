@@ -41,13 +41,9 @@ MunitResult test_gpsw_end_to_end(const MunitParameter *params, void *data) {
     cfe_gpsw gpsw;
     cfe_gpsw_init(&gpsw, 10);
 
-//    gmp_printf("%Zd %d\n", gpsw.p, gpsw.l);
-
     cfe_gpsw_pub_key pk;
     cfe_vec sk;
     generate_master_keys(&gpsw, &pk, &sk);
-
-//    cfe_vec_print(&sk);
 
     FP12_BN254 msg;
     FP12_BN254_one(&msg);
@@ -60,16 +56,17 @@ MunitResult test_gpsw_end_to_end(const MunitParameter *params, void *data) {
     gamma[4] = 5;
     gamma[5] = 6;
     gamma[6] = 7;
+//    int *gamma= (int *) cfe_malloc(1 * sizeof(int));
+//    gamma[0] = 1;
 
     cfe_gpsw_cipher cipher;
-    gpsw_encrypt(&cipher, &gpsw, &msg, gamma, 6, &pk);
+    gpsw_encrypt(&cipher, &gpsw, &msg, gamma, 7, &pk);
 
     // define a boolean expression and make a corresponding msp structure
     char bool_exp[] = "(5 OR 3) AND ((2 OR 4) OR (1 AND 6))";
+//    char bool_exp[] = "1";
     cfe_msp msp;
     boolean_to_msp(&msp, bool_exp, true);
-
-    cfe_mat_print(msp.mat);
 
 
     cfe_vec_G1 policy_keys;
@@ -79,28 +76,26 @@ MunitResult test_gpsw_end_to_end(const MunitParameter *params, void *data) {
     owned_atrib[0] = 1;
     owned_atrib[1] = 3;
     owned_atrib[2] = 6;
+//    int *owned_atrib= (int *) cfe_malloc(1 * sizeof(int));
+//    owned_atrib[0] = 1;
 
     cfe_gpsw_keys keys;
     delegate_keys(&keys, &policy_keys, &msp, owned_atrib, 3);
 
-    cfe_mat_print(&(keys.mat));
 
 
     FP12_BN254 decryption;
-    int check = gpsw_decrypt(decryption, &cipher, &keys, &gpsw);
-    gmp_printf("check %d\n", check);
 
-//    FP12_BN254_reduce(&decryption);
-    FP12_BN254_output(&decryption);
-    FP12_BN254_output(&msg);
+    int check = gpsw_decrypt(&decryption, &cipher, &keys, &gpsw);
+    munit_assert(check == 0);
 
-    munit_assert(FP12_BN254_equals(&msg, &decryption) == 0);
+    munit_assert(FP12_BN254_equals(&msg, &decryption) == 1);
 // TODO check negative in FP12
     return MUNIT_OK;
 
 }
-
-
+//
+//
 MunitResult test_amcl(const MunitParameter *params, void *data) {
 
     // check if e(g1 + g1, g2) = e(g1, g2 + g2)
@@ -138,7 +133,7 @@ MunitResult test_amcl(const MunitParameter *params, void *data) {
     check = FP12_BN254_equals(&GT_squared, &GTsum1);
     munit_assert(check);
 
-    // check if g * CURVE_Order = identity
+    // check if g * CURVE_Order = identity in ECPNB254
     ECP_BN254 H, H_prime;
     ECP_BN254_generator(&H);
     ECP_BN254_generator(&H_prime);
@@ -149,17 +144,36 @@ MunitResult test_amcl(const MunitParameter *params, void *data) {
     check = ECP_BN254_equals(&H, &H_prime);
     munit_assert(check);
 
-    // check if transformations of integers work
-    BIG_256_56 x;
-    mpz_t y, y_check;
-    mpz_inits(y, y_check, NULL);
-    mpz_set_str(y, "72057594037927936", 10);
-    BIG_256_56_from_mpz(x, y);
-    mpz_from_BIG_256_56(y_check, x);
-    munit_assert(mpz_cmp(y, y_check) == 0);
+
+
+    // check if e(g1*4, g2*4^-1) = e(g1, g2)
+    FP12_BN254 GT, GT2;
+    PAIR_BN254_ate(&GT, &G2, &G1);
+    PAIR_BN254_fexp(&GT);
+    mpz_t four, four_inv, p;
+    mpz_init_set_ui(four, 4);
+    mpz_inits(four_inv, p, NULL);
+    mpz_from_BIG_256_56(p, CURVE_Order_BN254);
+    mpz_invert(four_inv, four, p);
+
+    BIG_256_56 four_big, four_inv_big;
+    BIG_256_56_from_mpz(four_big, four);
+    BIG_256_56_from_mpz(four_inv_big, four_inv);
+
+    ECP_BN254_mul(&G1, four_big);
+    ECP2_BN254_mul(&G2, four_inv_big);
+    PAIR_BN254_ate(&GT2, &G2, &G1);
+    PAIR_BN254_fexp(&GT2);
+
+
+    check = FP12_BN254_equals(&GT, &GT2);
+    munit_assert(check);
+
 
     return MUNIT_OK;
 }
+
+
 
 MunitTest gpsw_tests[] = {
         {(char *) "/end-to-end", test_gpsw_end_to_end, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
