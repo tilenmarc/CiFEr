@@ -50,11 +50,8 @@ set(library_SOURCES
 
 add_library(cifer SHARED ${library_SOURCES})
 
-# TODO:
-include_directories(/home/tilenmarc/git/CiFEr/external/amcl)
-
 # Link libraries that are used in our library
-target_link_libraries(cifer gmp sodium m ${CMAKE_SOURCE_DIR}/external/amcl/amcl.a)
+target_link_libraries(cifer gmp sodium m amcl)
 
 # Install library and copy header to install dir
 install(TARGETS cifer DESTINATION lib)

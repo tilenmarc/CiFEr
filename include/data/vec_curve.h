@@ -28,8 +28,8 @@
 #ifndef CIFER_VECTOR_CURVE_H
 #define CIFER_VECTOR_CURVE_H
 
-#include <ecp_BN254.h>
-#include <ecp2_BN254.h>
+#include <amcl/ecp_BN254.h>
+#include <amcl/ecp2_BN254.h>
 #include "vec.h"
 
 /**
@@ -54,6 +54,12 @@ typedef struct cfe_vec_G2 {
     size_t size; /** The size of the vector */
 } cfe_vec_G2;
 
+/**
+ * Initializes a vector of ECP_BN254 elements of given size.
+ *
+ * @param v A pointer to an uninitialized cfe_vec_G1 vector
+ * @param size Size of the vector
+ */
 void cfe_vec_G1_init(cfe_vec_G1 *v, size_t size);
 
 /**
@@ -65,6 +71,12 @@ void cfe_vec_G1_init(cfe_vec_G1 *v, size_t size);
  */
 void cfe_vec_mul_G1(cfe_vec_G1 *v, cfe_vec *u);
 
+/**
+ * Initializes a vector of ECP2_BN254 elements of given size.
+ *
+ * @param v A pointer to an uninitialized cfe_vec_G2 vector
+ * @param size Size of the vector
+ */
 void cfe_vec_G2_init(cfe_vec_G2 *v, size_t size);
 
 /**

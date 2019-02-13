@@ -38,7 +38,7 @@
  */
 
 #include <gmp.h>
-#include <big_256_56.h>
+#include <amcl/big_256_56.h>
 
 
 /**
@@ -57,7 +57,5 @@ void BIG_256_56_from_mpz(BIG_256_56 a, mpz_t b);
  * @param b Integer will be saved here
  * @param a Integer will be copied from
  */void mpz_from_BIG_256_56(mpz_t b, BIG_256_56 a);
-
-//void mpz_from_BIG_256_56_2(mpz_t c, BIG_256_56 a);
 
 #endif

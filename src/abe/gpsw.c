@@ -29,9 +29,9 @@
 #include <string.h>
 #include <internal/common.h>
 #include <internal/big.h>
-#include <pair_BN254.h>
-#include <big_256_56.h>
-#include <fp12_BN254.h>
+#include <amcl/big_256_56.h>
+#include <amcl/fp12_BN254.h>
+#include <amcl/pair_BN254.h>
 
 #include "sample/uniform.h"
 #include "abe/policy.h"
@@ -42,8 +42,7 @@
 
 void cfe_gpsw_init(cfe_gpsw *gpsw, size_t l) {
     gpsw->l = l;
-
-    mpz_init_set_ui(gpsw->p, 0);
+    mpz_init(gpsw->p);
     mpz_from_BIG_256_56(gpsw->p, CURVE_Order_BN254);
 }
 
@@ -53,12 +52,6 @@ void generate_master_keys(cfe_gpsw *gpsw, cfe_gpsw_pub_key *pk, cfe_vec *sk) {
 
     cfe_vec_init(sk, gpsw->l + 1);
     cfe_uniform_sample_vec(sk, gpsw->p);
-
-//    mpz_set_ui(sk->vec[0], 1);
-//    mpz_set_ui(sk->vec[1], 2);
-//    mpz_set_ui(sk->vec[2], 1);
-//    cfe_vec_print(sk);
-
 
     cfe_vec sub_sk;
     cfe_vec_init(&sub_sk, gpsw->l);

@@ -30,7 +30,7 @@
 
 #include <gmp.h>
 #include <data/vec_curve.h>
-#include <fp12_BN254.h>
+#include <amcl/fp12_BN254.h>
 
 #include "data/vec.h"
 #include "policy.h"

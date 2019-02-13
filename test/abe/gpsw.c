@@ -27,8 +27,8 @@
 
 #include <gmp.h>
 #include <internal/big.h>
-#include <ecp_BN254.h>
-#include <pair_BN254.h>
+#include <amcl/ecp_BN254.h>
+#include <amcl/pair_BN254.h>
 #include <internal/common.h>
 #include "test.h"
 
