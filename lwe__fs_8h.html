@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>CiFEr: include/innerprod/fullysec/lwe_fs.h File Reference</title>
+<title>CiFEr: include/cifer/innerprod/fullysec/lwe_fs.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -42,7 +42,7 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_1a06e1bfecdc4221491a8ef779386285.html">innerprod</a></li><li class="navelem"><a class="el" href="dir_56f91aba2f38adea3e1cb87d8381fa2d.html">fullysec</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_3186075824eb6c6fc16d275650bc36ef.html">cifer</a></li><li class="navelem"><a class="el" href="dir_1a1ac732341b36bac5143090667c918e.html">innerprod</a></li><li class="navelem"><a class="el" href="dir_0cd43d440ba68ad5fc6a57e2fd6a6459.html">fullysec</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -74,12 +74,20 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a4272ea1ab13ae58dc3964480c8f0f328"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a4272ea1ab13ae58dc3964480c8f0f328">cfe_lwe_fs_init</a> (<a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s, size_t l, size_t n, mpz_t bound_x, mpz_t bound_y)</td></tr>
 <tr class="separator:a4272ea1ab13ae58dc3964480c8f0f328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a22e7072b70e697d37adca06d0e8eb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a6a22e7072b70e697d37adca06d0e8eb8">cfe_lwe_fs_sec_key_init</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *SK, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s)</td></tr>
+<tr class="separator:a6a22e7072b70e697d37adca06d0e8eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0280b90edc82a13acfc33a347ec072e6"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a0280b90edc82a13acfc33a347ec072e6">cfe_lwe_fs_generate_sec_key</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *SK, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s)</td></tr>
 <tr class="separator:a0280b90edc82a13acfc33a347ec072e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c2a40ebeca270eb41d905842c2460d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a5c2a40ebeca270eb41d905842c2460d9">cfe_lwe_fs_pub_key_init</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *PK, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s)</td></tr>
+<tr class="separator:a5c2a40ebeca270eb41d905842c2460d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af03c2c88a2cd68aec8d3f486d1593c8c"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#af03c2c88a2cd68aec8d3f486d1593c8c">cfe_lwe_fs_generate_pub_key</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *PK, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s, <a class="el" href="structcfe__mat.html">cfe_mat</a> *SK)</td></tr>
 <tr class="separator:af03c2c88a2cd68aec8d3f486d1593c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff87f953b7dd81f56d2fef3e732d2c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#acff87f953b7dd81f56d2fef3e732d2c5">cfe_lwe_fs_fe_key_init</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *z_y, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s)</td></tr>
+<tr class="separator:acff87f953b7dd81f56d2fef3e732d2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60e44b289bcadca2a028b8c5fe8a7ee0"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a60e44b289bcadca2a028b8c5fe8a7ee0">cfe_lwe_fs_derive_key</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *z_y, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s, <a class="el" href="structcfe__vec.html">cfe_vec</a> *y, <a class="el" href="structcfe__mat.html">cfe_mat</a> *SK)</td></tr>
 <tr class="separator:a60e44b289bcadca2a028b8c5fe8a7ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29d10e8f9f90dbda342f434bca702601"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#a29d10e8f9f90dbda342f434bca702601">cfe_lwe_fs_ciphertext_init</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *ct, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s)</td></tr>
+<tr class="separator:a29d10e8f9f90dbda342f434bca702601"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab02d3490c33cc73175215803456dd906"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#ab02d3490c33cc73175215803456dd906">cfe_lwe_fs_encrypt</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *ct, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s, <a class="el" href="structcfe__vec.html">cfe_vec</a> *x, <a class="el" href="structcfe__mat.html">cfe_mat</a> *PK)</td></tr>
 <tr class="separator:ab02d3490c33cc73175215803456dd906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa925968184c1304cadd78f47d359d557"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lwe__fs_8h.html#aa925968184c1304cadd78f47d359d557">cfe_lwe_fs_decrypt</a> (mpz_t res, <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *s, <a class="el" href="structcfe__vec.html">cfe_vec</a> *ct, <a class="el" href="structcfe__vec.html">cfe_vec</a> *z_y, <a class="el" href="structcfe__vec.html">cfe_vec</a> *y)</td></tr>
@@ -160,6 +168,40 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6a22e7072b70e697d37adca06d0e8eb8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_lwe_fs_sec_key_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>SK</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes the matrix which represents the secret key.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SK</td><td>A pointer to an uninitialized matrix </td></tr>
+    <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a0280b90edc82a13acfc33a347ec072e6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,12 +228,46 @@ Functions</h2></td></tr>
 <p>Generates a private secret key for the scheme.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">SK</td><td>A pointer to an uninitialized matrix (master secret key will be stored here) </td></tr>
+    <tr><td class="paramname">SK</td><td>A pointer to a matrix (master secret key will be stored here) </td></tr>
     <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Error code </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5c2a40ebeca270eb41d905842c2460d9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_lwe_fs_pub_key_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>PK</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes the matrix which represents the public key.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">PK</td><td>A pointer to an uninitialized matrix </td></tr>
+    <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -227,13 +303,47 @@ Functions</h2></td></tr>
 <p>Generates a public key for the scheme.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">PK</td><td>A pointer to an uninitialized matrix (master public key will be stored here) </td></tr>
+    <tr><td class="paramname">PK</td><td>A pointer to a matrix (master public key will be stored here) </td></tr>
     <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
     <tr><td class="paramname">SK</td><td>A pointer to an initialized matrix representing the secret key. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Error code </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acff87f953b7dd81f56d2fef3e732d2c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_lwe_fs_fe_key_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>z_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes the vector which represents the functional encryption key.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">z_y</td><td>A pointer to an uninitialized vector </td></tr>
+    <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -275,7 +385,7 @@ Functions</h2></td></tr>
 <p>Takes master secret key and inner product vector, and returns the functional encryption key.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">z_y</td><td>A pointer to an uninitialized vector (the functional encryption key will be stored here) </td></tr>
+    <tr><td class="paramname">z_y</td><td>A pointer to an initialized functional encryption key, which will be stored here </td></tr>
     <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
     <tr><td class="paramname">y</td><td>A pointer to the input vector </td></tr>
     <tr><td class="paramname">SK</td><td>A pointer to the master secret key </td></tr>
@@ -283,6 +393,40 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Error code </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a29d10e8f9f90dbda342f434bca702601"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_lwe_fs_ciphertext_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>ct</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initializes the vector which represents the ciphertext.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ct</td><td>A pointer to an uninitialized vector </td></tr>
+    <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -324,7 +468,7 @@ Functions</h2></td></tr>
 <p>Encrypts input vector x with the provided master public key.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ct</td><td>A pointer to an uninitialized vector (the resulting ciphertext will be stored here) </td></tr>
+    <tr><td class="paramname">ct</td><td>A pointer to a vector (the resulting ciphertext will be stored here) </td></tr>
     <tr><td class="paramname">s</td><td>A pointer to an instance of the scheme (<em>initialized</em> <a class="el" href="structcfe__lwe__fs.html">cfe_lwe_fs</a> struct) </td></tr>
     <tr><td class="paramname">x</td><td>A pointer to the input vector </td></tr>
     <tr><td class="paramname">PK</td><td>A pointer to a matrix - master public key. </td></tr>

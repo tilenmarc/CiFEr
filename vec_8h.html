@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>CiFEr: include/data/vec.h File Reference</title>
+<title>CiFEr: include/cifer/data/vec.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -42,7 +42,7 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_bd52eb7ac821349adc834157bbaf2648.html">data</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_3186075824eb6c6fc16d275650bc36ef.html">cifer</a></li><li class="navelem"><a class="el" href="dir_3a2c446f3cb4d9e866b08fb198af4352.html">data</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -79,6 +79,10 @@ Functions</h2></td></tr>
 <tr class="separator:a8d1fa0b403a0433034453a3b0b7eae0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad60de3c3c5fea0134693e04323361271"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vec_8h.html#ad60de3c3c5fea0134693e04323361271">cfe_vec_inits</a> (size_t size, <a class="el" href="structcfe__vec.html">cfe_vec</a> *v,...)</td></tr>
 <tr class="separator:ad60de3c3c5fea0134693e04323361271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa96245b6156fd8ef4ba56ad9b88337a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vec_8h.html#aa96245b6156fd8ef4ba56ad9b88337a4">cfe_vec_set_const</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *vec, mpz_t c)</td></tr>
+<tr class="separator:aa96245b6156fd8ef4ba56ad9b88337a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96780cd4a356c268df0554f061f0eabe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vec_8h.html#a96780cd4a356c268df0554f061f0eabe">cfe_vec_copy</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *res, <a class="el" href="structcfe__vec.html">cfe_vec</a> *v)</td></tr>
+<tr class="separator:a96780cd4a356c268df0554f061f0eabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a672d016c769ce3ba57b126eaf6fca4ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vec_8h.html#a672d016c769ce3ba57b126eaf6fca4ad">cfe_vec_free</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *v)</td></tr>
 <tr class="separator:a672d016c769ce3ba57b126eaf6fca4ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e06debcf239761222cfa82280dc7a28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vec_8h.html#a1e06debcf239761222cfa82280dc7a28">cfe_vec_frees</a> (<a class="el" href="structcfe__vec.html">cfe_vec</a> *v,...)</td></tr>
@@ -203,6 +207,74 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Variadic version of cfe_vec_init. Initializes a NULL-terminated list of vectors. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa96245b6156fd8ef4ba56ad9b88337a4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_vec_set_const </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>vec</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mpz_t&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets all the values of a vector to equal a constant.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vec</td><td>A pointer to an initialized vector </td></tr>
+    <tr><td class="paramname">c</td><td>The constant that the entries will equal to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a96780cd4a356c268df0554f061f0eabe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_vec_copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>res</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies all the values of a vector to another vector. Sizes of the vectors must match.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">res</td><td>A pointer to an initialized vector, values will be copied here </td></tr>
+    <tr><td class="paramname">v</td><td>A pointer to the vector that will be copied </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

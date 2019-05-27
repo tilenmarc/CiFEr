@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>CiFEr: include/data/mat.h File Reference</title>
+<title>CiFEr: include/cifer/data/mat.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -42,7 +42,7 @@
   </div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_bd52eb7ac821349adc834157bbaf2648.html">data</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_3186075824eb6c6fc16d275650bc36ef.html">cifer</a></li><li class="navelem"><a class="el" href="dir_3a2c446f3cb4d9e866b08fb198af4352.html">data</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -76,6 +76,10 @@ Functions</h2></td></tr>
 <tr class="separator:ab4288d110d902bd7c0f4fd72e36cb35e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f5df26bc6065241a4df21f8b63ad023"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a7f5df26bc6065241a4df21f8b63ad023">cfe_mat_inits</a> (size_t rows, size_t cols, <a class="el" href="structcfe__mat.html">cfe_mat</a> *m,...)</td></tr>
 <tr class="separator:a7f5df26bc6065241a4df21f8b63ad023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c5393b54c54dd32a8fd7b821697f86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#ae6c5393b54c54dd32a8fd7b821697f86">cfe_mat_set_const</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *m, mpz_t c)</td></tr>
+<tr class="separator:ae6c5393b54c54dd32a8fd7b821697f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a05cffb14aa7c46ef4f15107c625ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#ac4a05cffb14aa7c46ef4f15107c625ab">cfe_mat_copy</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *res, <a class="el" href="structcfe__mat.html">cfe_mat</a> *m)</td></tr>
+<tr class="separator:ac4a05cffb14aa7c46ef4f15107c625ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeae263d97cedde5875f23bf699545fc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#aeae263d97cedde5875f23bf699545fc4">cfe_mat_free</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *m)</td></tr>
 <tr class="separator:aeae263d97cedde5875f23bf699545fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad32ed5d697cbb1e336bfd97b60a47b02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#ad32ed5d697cbb1e336bfd97b60a47b02">cfe_mat_frees</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *m,...)</td></tr>
@@ -112,11 +116,19 @@ Functions</h2></td></tr>
 <tr class="separator:a196f0b755abe6961bf4d99a75f2f5184"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03e2147f0083fa3e11e5ad34745257f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a03e2147f0083fa3e11e5ad34745257f0">cfe_mat_transpose</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *t, <a class="el" href="structcfe__mat.html">cfe_mat</a> *m)</td></tr>
 <tr class="separator:a03e2147f0083fa3e11e5ad34745257f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529bb5ef47677869a68900ff333473e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a529bb5ef47677869a68900ff333473e3">cfe_mat_extract_submatrix</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *m, <a class="el" href="structcfe__mat.html">cfe_mat</a> *min, size_t i, size_t j)</td></tr>
+<tr class="separator:a529bb5ef47677869a68900ff333473e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ad59ecbe20f5bb0f11c84e4685fc9f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a4ad59ecbe20f5bb0f11c84e4685fc9f5">cfe_mat_determinant</a> (mpz_t det, <a class="el" href="structcfe__mat.html">cfe_mat</a> *m)</td></tr>
+<tr class="separator:a4ad59ecbe20f5bb0f11c84e4685fc9f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07d3179999dd78aedb5c3bf266656823"><td class="memItemLeft" align="right" valign="top">cfe_error&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a07d3179999dd78aedb5c3bf266656823">cfe_mat_inverse_mod</a> (<a class="el" href="structcfe__mat.html">cfe_mat</a> *inverse_mat, <a class="el" href="structcfe__mat.html">cfe_mat</a> *m, mpz_t mod)</td></tr>
+<tr class="separator:a07d3179999dd78aedb5c3bf266656823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dabc392ed27c7344c64dadce52da073"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mat_8h.html#a7dabc392ed27c7344c64dadce52da073">cfe_mat_mul_x_mat_y</a> (mpz_t res, <a class="el" href="structcfe__mat.html">cfe_mat</a> *mat, <a class="el" href="structcfe__vec.html">cfe_vec</a> *x, <a class="el" href="structcfe__vec.html">cfe_vec</a> *y)</td></tr>
+<tr class="separator:a7dabc392ed27c7344c64dadce52da073"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Matrix struct and operations. </p>
 <p>As in GMP library, all functions except initialization functions presume that all of the parameters are properly initialized.</p>
-<p>All functions (unless othewise specified) store their results (either a GMP integer, a vector or a matrix) to a parameter and do not modify the original matrix. Thus, the "result" passed as a parameter must also be properly initialized. </p>
+<p>All functions (unless otherwise specified) store their results (either a GMP integer, a vector or a matrix) to a parameter and do not modify the original matrix. Thus, the "result" passed as a parameter must also be properly initialized. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="a522f99cdf4f8d0ec65af22e51b777b1c"></a>
 <div class="memitem">
@@ -209,6 +221,74 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Variadic version of cfe_mat_init. Initializes a NULL-terminated list of matrices. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae6c5393b54c54dd32a8fd7b821697f86"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_mat_set_const </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mpz_t&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets all the entries of a matrix to equal the given constant.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>A pointer to an initialized matrix </td></tr>
+    <tr><td class="paramname">c</td><td>The constant that the entries equal to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ac4a05cffb14aa7c46ef4f15107c625ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_mat_copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>res</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies all the entries of a matrix to another matrix. The matrices must have equal dimensions.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">res</td><td>A pointer to an initialized matrix, matrix will be copied here </td></tr>
+    <tr><td class="paramname">m</td><td>A pointer to the matrix that will be copied </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -747,6 +827,144 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Transposes the matrix. </p>
+
+</div>
+</div>
+<a class="anchor" id="a529bb5ef47677869a68900ff333473e3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_mat_extract_submatrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>j</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a matrix obtained from m by removing row i and column j. It returns an error if i &gt;= number of rows of m, or if j &gt;= number of columns of m. </p>
+
+</div>
+</div>
+<a class="anchor" id="a4ad59ecbe20f5bb0f11c84e4685fc9f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_mat_determinant </td>
+          <td>(</td>
+          <td class="paramtype">mpz_t&#160;</td>
+          <td class="paramname"><em>det</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Determinant of a square matrix. </p>
+
+</div>
+</div>
+<a class="anchor" id="a07d3179999dd78aedb5c3bf266656823"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cfe_error cfe_mat_inverse_mod </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>inverse_mat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mpz_t&#160;</td>
+          <td class="paramname"><em>mod</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Inverse of a matrix over a modular field Z_mod. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7dabc392ed27c7344c64dadce52da073"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cfe_mat_mul_x_mat_y </td>
+          <td>(</td>
+          <td class="paramtype">mpz_t&#160;</td>
+          <td class="paramname"><em>res</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__mat.html">cfe_mat</a> *&#160;</td>
+          <td class="paramname"><em>mat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcfe__vec.html">cfe_vec</a> *&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Calcualtes x^T * mat * y, for x, y vectors and mat a matrix. </p>
 
 </div>
 </div>
