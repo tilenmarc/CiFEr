@@ -18,6 +18,9 @@
 #include "cifer/sample/normal_cdt.h"
 #include "cifer/test.h"
 #include "cifer/sample/normal_double.h"
+#include <stdio.h>
+#include <time.h>
+#include <cifer/internal/common.h>
 
 MunitResult test_normal_double_constant(const MunitParameter *params, void *data) {
     mpz_t k, sample;
@@ -78,6 +81,96 @@ MunitResult test_normal_double_constant(const MunitParameter *params, void *data
     return MUNIT_OK;
 }
 
+MunitResult test_normal_double_constant_time(const MunitParameter *params, void *data) {
+    mpz_t k, sample;
+    mpz_inits(k, sample, NULL);
+    mpz_set_ui(k, 50);
+
+    FILE *fp;
+    fp = fopen("times.txt", "w+");
+//    fprintf(fp, "This is testingaaaa for fprintf...\n");
+//    fputs("This is testing for fputs...\n", fp);
+
+
+    clock_t start, end;
+    double cpu_time_used;
+
+    start = clock();
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    cfe_normal_double_constant s;
+    cfe_normal_double_constant_init(&s, k);
+    char *ss = (char *) cfe_malloc(100);
+
+    for (int i = 0; i < 2500000; i++) {
+        start = clock();
+        cfe_normal_double_constant_sample(sample, &s);
+        end = clock();
+        cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+        int cpu_time_int = (int) (cpu_time_used * 1000000000);
+        char *s1 = mpz_get_str(NULL, 10, sample);
+        sprintf(ss, "%s %d\n", s1, cpu_time_int);
+        fprintf(fp, ss);
+
+        //fmt.Println(x, elapsed.Nanoseconds())
+//        f.Write([]byte(x.String() + " " + strconv.Itoa(int(elapsed.Nanoseconds())) + "\n"))
+    }
+    fclose(fp);
+//
+//
+//    const char *sigma = munit_parameters_get(params, "sigma");
+//    if (strcmp(sigma, "1 * sqrt(1/(2*ln(2)))") == 0) {
+//        mpz_set_ui(k, 1);
+//    } else if (strcmp(sigma, "10 * sqrt(1/(2*ln(2)))") == 0) {
+//        mpz_set_ui(k, 10);
+//        mean_low *= 10;
+//        mean_high *= 10;
+//        var_low *= 100;
+//        var_high *= 100;
+//    } else if (strcmp(sigma, "100 * sqrt(1/(2*ln(2)))") == 0) {
+//        mpz_set_ui(k, 100);
+//        mean_low *= 100;
+//        mean_high *= 100;
+//        var_low *= 10000;
+//        var_high *= 10000;
+//    }
+//
+//    cfe_normal_double_constant s;
+//    cfe_normal_double_constant_init(&s, k);
+//
+//    size_t size = 100000;
+//    cfe_vec v;
+//    cfe_vec_init(&v, size);
+//
+//    for (size_t i = 0; i < size; i++) {
+//        cfe_normal_double_constant_sample(sample, &s);
+//        cfe_vec_set(&v, sample, i);
+//    }
+//
+//    mpf_t me, var;
+//    mpf_inits(me, var, NULL);
+//    cfe_mean(me, &v);
+//    cfe_variance(var, &v);
+//
+//    double mean_d = mpf_get_d(me);
+//    double var_d = mpf_get_d(var);
+//
+//    munit_assert(mean_d > mean_low);
+//    munit_assert(mean_d < mean_high);
+//    munit_assert(var_d > var_low);
+//    munit_assert(var_d < var_high);
+//
+//    mpz_clears(k, sample, NULL);
+//    mpf_clears(me, var, NULL);
+//    cfe_vec_free(&v);
+//    cfe_normal_double_constant_free(&s);
+
+    return MUNIT_OK;
+}
+
+
+
 char *normal_double_constant_param[] = {
         (char *) "1 * sqrt(1/(2*ln(2)))",
         (char *) "10 * sqrt(1/(2*ln(2)))",
@@ -91,7 +184,8 @@ MunitParameterEnum normal_double_constant_params[] = {
 };
 
 MunitTest normal_double_constant_tests[] = {
-        {(char *) "/mean_var_test", test_normal_double_constant, NULL, NULL, MUNIT_TEST_OPTION_NONE, normal_double_constant_params},
+//        {(char *) "/mean_var_test", test_normal_double_constant, NULL, NULL, MUNIT_TEST_OPTION_NONE, normal_double_constant_params},
+        {(char *) "/time_test", test_normal_double_constant_time, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL},
         {NULL, NULL,                                             NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL}
 };
 
