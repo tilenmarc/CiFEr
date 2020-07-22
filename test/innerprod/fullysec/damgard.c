@@ -21,7 +21,7 @@
 #include "cifer/sample/uniform.h"
 
 MunitResult test_damgard_end_to_end(const MunitParameter *params, void *data) {
-    size_t l = 3;
+    size_t l = 100;
     mpz_t bound, bound_neg, key1, key2, xy_check, xy;
     mpz_inits(bound, bound_neg, key1, key2, xy_check, xy, NULL);
     mpz_set_ui(bound, 2);

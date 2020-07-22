@@ -65,6 +65,7 @@ set(library_SOURCES
         src/abe/fame.c
         src/abe/dippe.c
         src/quadratic/sgp.c
+        ffi.c
         )
 
 add_library(cifer SHARED ${library_SOURCES})
